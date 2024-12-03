@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>우주쇼핑몰</title>
+    <link rel="stylesheet" href="css/style2.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/script.js"></script>
+</head>
+  <body>
+    <div class="main_container">
+      <div class="title">
+        <span class="pink_brackets">《</span>
+        <span class="shop_name">우주 쇼핑몰</span>
+        <span class="pink_brackets">》</span>
+      </div>
+      <div class="item_list">
+        <div class="section_title">*물건*</div>
+        <ul>
+            <li>
+              <span class="hover-group" data-item="흡혈 식기">
+                흡혈 식기 - ₩14,999,999
+              </span>
+            </li>
+            <li>
+              <span class="hover-group" data-item="더 넓은 무전기">
+                더 넓은 무전기 - ₩4,999,999
+              </span>
+            </li>
+            <li>
+              <span class="hover-group" data-item="앨리스 피크닉세트">
+                앨리스 피크닉세트 - ₩11,999,999
+              </span>
+            </li>
+            <li>
+              <span class="hover-group"data-item="은화 뱀">
+                ※할인!※ 은화 뱀 -
+                <span class="discount">₩9,999,999</span><span class="strike">₩14,999,999</span>
+              </span>
+            </li>
+            <li>
+              <span class="hover-group" data-item="해피메이커">
+                해피메이커 - ₩27,999,999
+              </span>
+            </li>
+            <li>
+              <span class="hover-group" data-item="노스텔지어 캔디">
+                노스텔지어 캔디 - ₩27,999,999
+              </span>
+            </li>
+            <li>
+              <span class="hover-group" data-item="포장지 12B357나">
+                포장지 12B357나 - ₩9,999,999
+              </span>
+            </li>
+            <li>
+              <span class="hover-group" data-item="네크로노미콘">
+                네크로노미콘 - ₩49,999,999
+              </span>
+            </li>
+            <li>
+              <span class="hover-group" data-item="우리가 도움!">
+                우리가 도움! - ₩66,666,666
+              </span>
+            </li>
+        </ul>
+        <!-- 모달 -->
+        <div id="modal" class="modal">
+            <div id="modal-content" class="modal-border">
+              <p id="modal-message">아이템을 구매한다</p>
+              <div class="modal-buttons">
+                <button id="buy-button">구매</button>
+                <button id="cancel-button">아니</button>
+              </div>
+            </div>
+          </div>
+    </div>
+  
+          
+        <div class="footer">
+            정말 1억 이상 사면 20%할인!<br>
+            
+            우주쇼핑몰 <span style="color:#ffff00">VIP</span> 된다!
+        </div>
+    </div>
+  </body>
+</html>

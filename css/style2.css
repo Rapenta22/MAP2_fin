@@ -1,0 +1,185 @@
+@font-face {
+    font-family: 'Sam3KRFont';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/Sam3KRFont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #000000; /* 파란색 배경 */
+    font-family: "Sam3KRFont";
+    color: #ffffff; /* 기본 텍스트 색상 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 화면 높이 전체 사용 */
+    box-sizing: border-box;
+  }
+  .main_container {
+    display: flex;
+    flex-direction: column;
+    border: 4px solid #ffffff; /* 흰색 테두리 */
+    padding: 20px; /* 내부 패딩 */
+    box-sizing: border-box; /* 테두리와 패딩 포함 크기 계산 */
+    width: calc(100% - 80px); /* 화면 좌우 마진 40px */
+    height: calc(100% - 80px); /* 화면 상하 마진 40px */
+  }
+  .pink_brackets {
+    font-size: 56px;
+    color: #FF00FF; /* 분홍색 */
+    margin: 0;
+    padding: 0;
+  }
+
+.title {
+  font-size: 56px;
+  margin-bottom: 70px;
+}
+
+.shop_name {
+  color: #00ff00; /* 녹색 */
+}
+
+
+.item_list {
+  text-align: left; /* 왼쪽 정렬 */
+  margin: 20px 0;
+}
+
+.section_title {
+  font-size: 42px;
+  margin-bottom: 10px;
+}
+
+.item_list ul {
+    list-style: none; /* 기본 리스트 스타일 제거 */
+    padding: 0;
+    margin: 0;
+  }
+  
+  .item_list li {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    font-size: 24px;
+  }
+  
+  .hover-group {
+    display: inline-block; /* 텍스트 그룹만 호버 가능 */
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+  }
+  
+  .hover-group:hover, /* 텍스트 그룹 전체에 호버링 효과 */
+  .hover-group:hover .discount, /* 할인된 가격 */
+  .hover-group:hover .strike { /* 원래 가격 */
+    color: #ffff00; /* 호버 시 색상 변경 */
+    text-decoration: underline; /* 밑줄 추가 */
+  }
+  
+  .discount {
+    color: #ff0000; /* 할인된 가격 빨간색 */
+  }
+  
+  .strike {
+    text-decoration: line-through; /* 항상 취소선 */
+    color: #aaaaaa; /* 원래 가격 회색 */
+    margin-left: 10px; /* 할인 가격과 간격 */
+  }
+.footer {
+    position: fixed;
+    bottom: 50px; /* 화면 아래로부터 40px 떨어짐 */
+    right: 80px;
+    font-size: 32px;
+    text-align: right; /* 오른쪽 정렬 */
+    color: #ffffff;
+    line-height: 1.5;
+  }
+
+
+/* 모달 배경 */
+.modal {
+  display: none; /* 기본적으로 숨김 상태 */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 300px;
+  background-color: #0000ff; /* 파란 배경 */
+  border: 2px solid #ffffff; /* 흰색 테두리 */
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-border {
+  width: 90%; /* 모달 내부 너비 비율 */
+  height: 80%; /* 모달 내부 높이 비율 */
+  border: 2px solid #ffffff; /* 흰색 테두리 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box; /* 패딩 포함 크기 계산 */
+  margin: auto;
+  color: #ffffff;
+  font-family: 'Sam3KRFont'; /* 폰트 설정 */
+}
+
+  
+  /* 구매 성공 메시지 */
+  .modal-message-success {
+    font-size: 24px; /* 메시지 폰트 크기 */
+    color: #ffffff; /* 흰색 텍스트 */
+    text-align: center;
+    margin-bottom: 20px; /* 아래 여백 */
+  }
+  
+  /* 카운트다운 */
+  .countdown {
+    font-size: 20px; /* 카운트다운 폰트 크기 */
+    color: #ffff00; /* 노란색 텍스트 */
+    text-decoration: underline; /* 밑줄 추가 */
+    text-align: center;
+    margin-top: 10px; /* 위 여백 */
+  }
+  
+  /* 도착 메시지 */
+  .modal-message-arrival {
+    font-size: 28px; /* 도착 메시지 폰트 크기 */
+    color: #ffff00; /* 노란색 텍스트 */
+    font-weight: bold; /* 굵은 텍스트 */
+    text-align: center;
+  }
+  
+  /* 버튼 컨테이너 */
+  .modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* 버튼 간격 */
+    margin-top: 20px;
+  }
+  
+  /* 버튼 기본 스타일 */
+  .modal-buttons button {
+    all: unset; /* 브라우저 기본 스타일 초기화 */
+    display: inline-block;
+    width: 150px; /* 버튼 너비 */
+    background-color: #ffffff; /* 흰색 배경 */
+    color: #000000; /* 검은색 텍스트 */
+    border: 2px solid #000000; /* 검은 테두리 */
+    font-family: 'Sam3KRFont'; /* 폰트 설정 */
+    font-size: 18px; /* 폰트 크기 */
+    padding: 10px; /* 내부 여백 */
+    text-align: center;
+    cursor: pointer;
+    text-decoration: underline; /* 밑줄 추가 */
+  }
+  
+  /* 버튼 호버 효과 */
+  .modal-buttons button:hover {
+    background-color: #dddddd; /* 호버 시 밝은 회색 */
+  }
+  
+  
