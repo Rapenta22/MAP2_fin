@@ -1,13 +1,61 @@
 $(document).ready(function () {
-  let countdownInterval;
+  let userMoney = 999999999; // 초기 자금
+  let cartTotal = 0; // 장바구니 총합
 
   // 초기 상태에서 모달을 숨김
   $("#modal").hide();
 
+  // 돈 정보 표시 추가
+  $("<div id='money-display' class='money-display'>돈: " + userMoney.toLocaleString() + "</div>").appendTo(".title");
+
+  // 장바구니에 아이템 추가 함수
+  function addToCart(itemName, itemPrice) {
+    cartTotal += itemPrice;
+
+    // 장바구니에 아이템 추가
+    $(".cart-items").append(`
+      <li>${itemName} - ₩${itemPrice.toLocaleString()}</li>
+    `);
+
+    // 총금액 업데이트
+    updateCartTotal();
+  }
+
+  // 총금액 및 할인된 가격 계산
+  function updateCartTotal() {
+    $("#cart-total-price").text(cartTotal.toLocaleString());
+
+    if (cartTotal > 100000000) {
+      const discountedTotal = Math.floor(cartTotal * 0.8); // 20% 할인 계산
+      if (!$("#discounted-total").length) {
+        $("#cart-total-price").after(`<div id="discounted-total" class="discounted-total"></div>`);
+      }
+      $("#discounted-total").html(`20% 할인 적용: ₩${discountedTotal.toLocaleString()}`);
+    } else {
+      $("#discounted-total").remove(); // 1억 이하일 때 할인 표시 제거
+    }
+  }
+
   // 모달 열기
   $(".hover-group").on("click", function () {
-    const itemName = $(this).data("item"); // 아이템 이름 가져오기
-    $("#modal-message").text(`${itemName}을(를) 구매한다`);
+    if ($(this).hasClass("sold-out")) {
+      return; // 품절된 아이템은 클릭 불가
+    }
+
+    const itemName = $(this).data("item");
+
+    // 상품 가격 가져오기 (할인 가격이 있으면 우선 적용)
+    let itemPrice = $(this).find(".discount").text().replace(/[^0-9]/g, "");
+    if (!itemPrice) {
+      itemPrice = $(this).text().replace(/[^0-9]/g, ""); // 일반 가격 추출
+    }
+    itemPrice = parseInt(itemPrice, 10); // 숫자로 변환
+
+    $("#modal-message").data("price", itemPrice).text(`${itemName}을(를) 구매한다`);
+
+    // 버튼 항상 표시
+    $(".modal-buttons").show();
+
     $("#modal").fadeIn(); // 클릭 시 모달 표시
   });
 
@@ -16,39 +64,43 @@ $(document).ready(function () {
     $("#modal").fadeOut(); // 모달 숨기기
   });
 
-  // 구매 버튼 동작
-  $("#buy-button").on("click", function () {
-    $("#modal-message")
-      .attr("class", "modal-message-success")
-      .html(`성공 구매!<br>물건이 로켓을 탔다!`);
-    $(".modal-buttons").hide(); // 버튼 숨기기
+  // 모달에서 장바구니 버튼 클릭 시
+  $("#cart-button").on("click", function () {
+    const itemName = $("#modal-message").text().split("을(를) 구매한다")[0].trim(); // 아이템 이름 추출
+    const itemPrice = $("#modal-message").data("price");
 
-    $("#modal-message").append('<p class="countdown">도착까지 00:00:10</p>');
-    let countdown = 10;
-
-    // 카운트다운 시작
-    countdownInterval = setInterval(() => {
-      countdown--;
-      $(".countdown").text(`도착까지 00:00:${countdown.toString().padStart(2, "0")}`);
-      if (countdown === 0) {
-        clearInterval(countdownInterval);
-        showArrivalMessage(); // 도착 메시지 표시
-      }
-    }, 1000);
+    if (itemName && itemPrice) {
+      addToCart(itemName, itemPrice);
+      $("#modal").fadeOut(); // 모달 닫기
+    }
   });
 
-  // 도착 메시지 표시
-  function showArrivalMessage() {
-    $("#modal-message")
-      .attr("class", "modal-message-arrival")
-      .html("도착!");
+  // 구매 완료 버튼 동작
+  $(".cart-purchase-button").on("click", function () {
+    let finalTotal = cartTotal;
+    if (cartTotal > 100000000) {
+      finalTotal = Math.floor(cartTotal * 0.8); // 20% 할인된 총금액
+    }
 
-    // 2초 후 모달 자동 닫기
-    setTimeout(() => {
-      $("#modal").fadeOut();
-    }, 2000); // 2000ms = 2초
-  }
+    if (userMoney >= finalTotal) {
+      userMoney -= finalTotal;
+      $("#money-display").text(`잔고: ₩${userMoney.toLocaleString()}`);
+      alert("구매가 완료되었습니다!");
+
+      // 장바구니에 있는 아이템들을 품절 처리
+      $(".cart-items li").each(function () {
+        const itemText = $(this).text().split(" - ")[0].trim(); // 아이템 이름 추출
+        const targetItem = $(`.hover-group[data-item='${itemText}']`);
+        targetItem.addClass("sold-out").text(`${itemText} (품절)`); // 품절 표시
+        targetItem.off("click"); // 클릭 비활성화
+      });
+
+      $(".cart-items").empty(); // 장바구니 비우기
+      cartTotal = 0; // 총합 초기화
+      $("#cart-total-price").text(cartTotal.toLocaleString());
+      $("#discounted-total").remove(); // 할인된 총액 제거
+    } else {
+      alert("잔액이 부족합니다!");
+    }
+  });
 });
-
-  
-  

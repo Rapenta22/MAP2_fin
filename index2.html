@@ -65,12 +65,25 @@
               </span>
             </li>
         </ul>
+        <div class="cart-container">
+          <div class="cart-title">*장바구니*</div>
+          <ul class="cart-items">
+            <!-- 장바구니 아이템이 동적으로 추가됩니다 -->
+          </ul>
+          <div class="cart-total">
+            =<span id="cart-total-price">0</span>
+          </div>
+          <button class="cart-purchase-button">구매한다</button>
+        </div>
+        
+        
         <!-- 모달 -->
         <div id="modal" class="modal">
             <div id="modal-content" class="modal-border">
               <p id="modal-message">아이템을 구매한다</p>
               <div class="modal-buttons">
                 <button id="buy-button">구매</button>
+                <button id="cart-button">장바구니</button>
                 <button id="cancel-button">아니</button>
               </div>
             </div>
