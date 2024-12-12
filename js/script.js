@@ -41,23 +41,28 @@ $(document).ready(function () {
     if ($(this).hasClass("sold-out")) {
       return; // 품절된 아이템은 클릭 불가
     }
-
-    const itemName = $(this).data("item");
-
-    // 상품 가격 가져오기 (할인 가격이 있으면 우선 적용)
-    let itemPrice = $(this).find(".discount").text().replace(/[^0-9]/g, "");
-    if (!itemPrice) {
-      itemPrice = $(this).text().replace(/[^0-9]/g, ""); // 일반 가격 추출
-    }
+  
+    const itemName = $(this).data("item"); // 상품 이름
+    const fullText = $(this).text(); // 전체 텍스트 (상품명 + 가격)
+  
+    // 가격 추출: ₩ 이후의 숫자만 추출
+    const priceMatch = fullText.match(/₩\s?([\d,]+)/);
+    let itemPrice = priceMatch ? priceMatch[1].replace(/,/g, "") : 0; // 쉼표 제거 및 숫자 변환
     itemPrice = parseInt(itemPrice, 10); // 숫자로 변환
-
+  
+    if (isNaN(itemPrice) || itemPrice <= 0) {
+      alert("잘못된 가격 정보입니다."); // 잘못된 가격 처리
+      return;
+    }
+  
     $("#modal-message").data("price", itemPrice).text(`${itemName}을(를) 구매한다`);
-
+  
     // 버튼 항상 표시
     $(".modal-buttons").show();
-
+  
     $("#modal").fadeIn(); // 클릭 시 모달 표시
   });
+  
 
   // 모달 닫기
   $("#cancel-button").on("click", function () {
@@ -94,7 +99,15 @@ $(document).ready(function () {
         targetItem.addClass("sold-out").text(`${itemText} (품절)`); // 품절 표시
         targetItem.off("click"); // 클릭 비활성화
       });
+      if (finalTotal > 100000000) {
+        // 1억 이상 구매 시 VIP 모달 표시
+        $("#vip-modal").fadeIn();
 
+        // 5초 후 모달 닫기
+        setTimeout(() => {
+          $("#vip-modal").fadeOut();
+        }, 5000);
+      }
       $(".cart-items").empty(); // 장바구니 비우기
       cartTotal = 0; // 총합 초기화
       $("#cart-total-price").text(cartTotal.toLocaleString());
